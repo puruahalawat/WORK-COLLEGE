@@ -6,9 +6,9 @@
  * 
  *  Name:  PURU AHALAWAT __ Student ID:  170440218___ Date: 09 JULY 2023
  *
- *  Cyclic Web App URL:
+ *  Cyclic Web App URL:https://lazy-lime-indri-fez.cyclic.app/posts/add
  *
- *  GitHub Repository URL: 
+ *  GitHub Repository URL: https://github.com/puruahalawat/WORK-COLLEGE/tree/main
  *
  ********************************************************************************/
 
