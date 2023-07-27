@@ -1,5 +1,6 @@
 
         <div class="row">
+
             <div class="container  px-md-5 ">
                 <h2 class="py-4">Add Post</h2>
 
@@ -16,7 +17,7 @@
                         <hr>
                         <div class="col mb-3">
                             <label for="Title">Title</label>
-                            <input type="text" class="form-control" id="Title" name="title" placeholder="Post Title" required>
+                            <input type="text" class="form-control" id="Title" name="title" placeholder="Post Title" required >
                         </div>
                         <br>
                         <div class="col mb-3">
@@ -28,17 +29,17 @@
                     <div class="form-row row">
                         <div class="col-md-6 mb-3">
                             <label for="Category">Category</label>
-                            <select class="form-control" name="category" id="category">
-                                    <option value="">Technology</option>
-                                    <option value="">Gaming</option>
-                                    <option value="">Fashion</option>
-                                    <option value="">Entertainment</option>
-                                    <option value="">Sports</option>
-                                    <option value="">Education</option>
-                                    
-                            </select>
 
-
+                           {{#if categories}}
+                                <select class="form-control" name="category" id="category">
+                                    <option value="">Select Category</option>
+                                    {{#each categories}}
+                                        <option value="{{id}}">{{category}}</option>
+                                    {{/each}}
+                                </select>
+                            {{else}}
+                                <div>No Categories</div>
+                            {{/if}}
                         </div>
 
                         <div class="col-md-6 mb-3 pt-1">
@@ -58,5 +59,7 @@
                     <br><br>
                 </form>
             </div>
+
+
         </div>
-    
+ 

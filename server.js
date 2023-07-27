@@ -28,6 +28,7 @@
  
  var PORT = process.env.PORT || 8080
  
+ app.use(express.urlencoded({ extended: true }));
  
  
  
@@ -65,6 +66,12 @@
              } else {
                  return options.fn(this);
              }
+         },
+         formatDate: (dateObj) => {
+             let year = dateObj.getFullYear();
+             let month = (dateObj.getMonth() + 1).toString();
+             let day = dateObj.getDate().toString();
+             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
          }
  
      }
@@ -83,13 +90,10 @@
  
  // setup a 'route' to listen on the default url path
  app.get("/", (req, res) => {
-     //res.send("Delisha Madhan - 166471219");
      res.redirect("/blog");
  });
  
  app.get("/about", (req, res) => {
- 
- 
      res.render(path.join(__dirname + "/views/about.hbs"));
  });
  
@@ -179,8 +183,14 @@
      }
  });
  
- app.get("/posts/add", (req, res) => {
-     res.render(path.join(__dirname + "/views/addPost.hbs"));
+ app.get('/posts/add', (req, res) => {
+ 
+     data.getCategories()
+         .then(data => res.render("addPost", { categories: data }))
+         .catch(err => {
+             res.render("addPost", { categories: [] })
+             console.log(err);
+         });
  });
  
  // post/value route 
@@ -226,6 +236,15 @@
  
  });
  
+ app.get("/posts/delete/:id", (req, res) => {
+     data.deletePostById(req.params.id)
+         .then(() => {
+             res.redirect("/posts");
+         }).catch(err => {
+             res.status(500).send("Unable to Remove Post / Post not found");
+             console.log(err);
+         });
+ });
  
  app.get("/categories", (req, res) => {
      data.getCategories().then(data => {
@@ -235,6 +254,29 @@
              res.render("categories", { message: "no results" });
          }
      })
+ });
+ 
+ app.get("/categories/add", (req, res) => {
+     res.render(path.join(__dirname, "/views/addCategory.hbs"));
+ });
+ 
+ 
+ app.post("/categories/add", (req, res) => {
+     data.addCategory(req.body).then(() => {
+         res.redirect("/categories");
+     })
+ });
+ 
+ 
+ 
+ app.get("/categories/delete/:id", (req, res) => {
+     data.deleteCategoryById(req.params.id)
+         .then(() => {
+             res.redirect("/categories");
+         }).catch(err => {
+             res.status(500).send("Unable to Remove Category / Category not found");
+             console.log(err);
+         });
  });
  
  app.use(function(req, res, next) {
